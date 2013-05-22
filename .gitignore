@@ -1,0 +1,12 @@
+/bin
+/EB-Front/EB-Front/obj
+/EB-Front/EB-Front/bin
+/EB-Inject/EB-Inject.sdf
+/EB-Inject/ipch
+/EB-Inject/Release
+/EB-Inject/EB-Inject/Release
+/EB-Inject/EB-Inject/ReadMe.txt
+/EB-Inject-Shell/EB-Inject-Shell/bin
+/EB-Inject-Shell/EB-Inject-Shell/obj
+
+/EB-Inject/*.opensdf
