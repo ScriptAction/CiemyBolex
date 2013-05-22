@@ -10,3 +10,6 @@
 /EB-Inject-Shell/EB-Inject-Shell/obj
 
 /EB-Inject/*.opensdf
+/EB-Front/*.suo
+/EB-Inject/*.suo
+/EB-Inject-Shell/*.suo
