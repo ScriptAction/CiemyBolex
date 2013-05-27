@@ -39,14 +39,15 @@ namespace EB_Front
                 return;
             }
 
-            if (args.Length < 2)
+            if (args.Length < 3)
             {
-                Console.WriteLine("Usage: EB-Front init_path script_path");
+                Console.WriteLine("Usage: EB-Front working_dir init_path script_path");
                 return;
             }
 
-            string initPath = args[0];
-            string scriptPath = args[1];
+            string workingDir = args[0];
+            string initPath = args[1];
+            string scriptPath = args[2];
 
             try
             {
@@ -72,6 +73,7 @@ namespace EB_Front
                     "EB-Inject-Shell.dll",
                     "EB-Inject-Shell.dll",
                     channelName,
+                    workingDir,
                     initPath,
                     scriptPath);
 

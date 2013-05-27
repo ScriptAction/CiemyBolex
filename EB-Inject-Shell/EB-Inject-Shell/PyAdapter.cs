@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
 using IronPython.Runtime;
-using Microsoft.Scripting.Runtime;
 using System.Threading;
+using System.Collections;
 
 namespace EB_Inject_Shell
 {
@@ -25,7 +25,7 @@ namespace EB_Inject_Shell
 
         public static int CD = 500;
         public static int InnerCD = 100;
-        public string WORKING_DIR = null;
+        public ArrayList mPaths = new ArrayList();
 
 
         public PyAdapter(EB_Front.InjectorInterface injector)
@@ -76,8 +76,18 @@ namespace EB_Inject_Shell
 
         private object SharedScopeImport(CodeContext context, string moduleName, object globals, object locals, object tuple)
         {
-            string path = WORKING_DIR + "/" + moduleName + ".py";
-            if (File.Exists(path))
+            string path = null;
+            foreach (string dir in mPaths)
+            {
+                string temp = dir + "/" + moduleName + ".py";
+                if (File.Exists(temp))
+                {
+                    path = temp;
+                    break;
+                }
+            }
+
+            if (path != null)
             {
                 ScriptSource sourceCode = mEngine.CreateScriptSourceFromFile(path);
                 ScriptScope newScope = mEngine.CreateScope();
@@ -101,15 +111,25 @@ namespace EB_Inject_Shell
             mScope.SetVariable("eve", this);
         }
 
-        public void Run(string initPath, string scriptPath)
+        private void AddPythonSysPath(string path, bool recursive)
+        {
+            mPaths.Add(path);
+            if (recursive)
+            {
+                DirectoryInfo folder = new DirectoryInfo(path);
+                foreach (DirectoryInfo subFolder in folder.GetDirectories())
+                {
+                    AddPythonSysPath(subFolder.FullName, recursive);
+                }
+            }
+        }
+
+        public void Run(string workingDir, string initPath, string scriptPath)
         {
             var sourceCode = mEngine.CreateScriptSourceFromFile(initPath);
             sourceCode.Execute(mScope);
 
-            WORKING_DIR = Path.GetDirectoryName(scriptPath);
-            ICollection<string> paths = mEngine.GetSearchPaths();
-            paths.Add(String.IsNullOrEmpty(WORKING_DIR) ? Environment.CurrentDirectory : WORKING_DIR);
-            mEngine.SetSearchPaths(paths);
+            AddPythonSysPath(workingDir, true);
             sourceCode = mEngine.CreateScriptSourceFromFile(scriptPath);
             sourceCode.Execute(mScope);
         }

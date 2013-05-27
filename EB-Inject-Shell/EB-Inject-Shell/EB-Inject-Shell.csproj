@@ -40,7 +40,7 @@
   <ItemGroup>
     <Reference Include="EasyHook, Version=2.7.4761.0, Culture=neutral, PublicKeyToken=4b580fca19d0b0c5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\bin\release\EasyHook.dll</HintPath>
+      <HintPath>..\..\EasyHook\EasyHook.dll</HintPath>
     </Reference>
     <Reference Include="EB-Front, Version=1.0.0.0, Culture=neutral, PublicKeyToken=164c0a1b7f11b6e7, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -73,7 +73,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PyAdapter.cs" />
-    <Compile Include="ScriptParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="sign.snk" />
